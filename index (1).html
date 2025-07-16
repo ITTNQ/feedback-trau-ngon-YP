@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Đánh giá chất lượng phục vụ – TRÂU NGON QUÁN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{--primary:#ffca08;--neutral:#ccc;--bg:#f9fafb;--modal-bg:rgba(0,0,0,.6);}  
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);margin:0;display:flex;justify-content:center;padding:2rem;}
+    .card{background:#fff;border-radius:1rem;box-shadow:0 4px 20px rgba(0,0,0,.08);max-width:480px;width:100%;padding:1.5rem 2rem;position:relative;overflow:hidden;}
+    .card::before{content:"";position:absolute;inset:0;background:url('LOGO.png') center/80% no-repeat;opacity:0.1;pointer-events:none;}
+    .card *{position:relative;z-index:1;}
+    h2{text-align:center;margin:0;font-size:1.5rem;text-transform:uppercase;}
+    .restaurant-name{text-align:center;font-weight:700;margin:.5rem 0 1.5rem;text-transform:uppercase;font-size:1.25rem;}
+    label{display:block;margin:.75rem 0 .25rem;font-weight:600;}
+    textarea{resize:vertical;min-height:90px;}
+    input[type="text"],input[type="tel"],textarea{width:100%;padding:.5rem .75rem;border:1px solid #ddd;border-radius:.5rem;font-size:1rem;}
+    .rating{direction:rtl;display:inline-flex;gap:.25rem;font-size:1.75rem;}
+    .rating>input{display:none;}
+    .rating>label{cursor:pointer;color:var(--neutral);transition:color .2s;}
+    .rating>input:checked~label,.rating>label:hover,.rating>label:hover~label{color:var(--primary);}  
+    button{display:block;margin:1.5rem auto 0;padding:.6rem 1.5rem;border:none;background:var(--primary);color:#000;font-weight:600;border-radius:.5rem;font-size:1rem;cursor:pointer;transition:transform .15s;}
+    button:disabled{opacity:.5;cursor:not-allowed;}
+    button:active{transform:scale(.97);}  
+    .modal{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:var(--modal-bg);z-index:9999;}
+    .modal-content{background:#fff;border-radius:1rem;padding:2rem;max-width:340px;width:90%;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.2);}    
+    .modal-content h3{margin:0 0 1rem;font-size:1.25rem;}
+    .modal-content input{width:100%;padding:.5rem;border:1px solid #ddd;border-radius:.5rem;font-size:1rem;margin-top:.5rem;}
+    .modal-content button{margin-top:1rem;width:100%;}
+    #thankYouBox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:9999;}
+    #thankYouContent{background:white;padding:2rem 1.5rem;border-radius:1rem;box-shadow:0 6px 24px rgba(0,0,0,.2);text-align:center;max-width:320px;}
+    #thankYouContent h3{margin:0 0 1rem;font-size:1.25rem;}
+  </style>
+</head>
+<body>
+  <!-- Popup: mã nhân viên + số bàn -->
+  <div id="staffModal" class="modal">
+    <div class="modal-content">
+      <h3>Nhập mã nhân viên và số bàn</h3>
+      <input id="staffCodeInput" type="tel" inputmode="numeric" pattern="\d{4}" maxlength="4" placeholder="Mã NV (4 số)" />
+      <input id="tableNumberInput" type="text" pattern="[A-Za-z0-9]{1,5}" maxlength="5" placeholder="Số bàn (vd A12)" />
+      <button id="confirmStaff">Xác nhận</button>
+    </div>
+  </div>
+
+  <!-- Popup cảm ơn -->
+  <div id="thankYouBox">
+    <div id="thankYouContent">
+      <h3 id="thankYouText"></h3>
+      <button onclick="window.location.href='https://traungonquan.vn/'">Về trang chính</button>
+    </div>
+  </div>
+
+  <!-- Form chính -->
+  <div class="card" id="mainCard" style="opacity:.3;pointer-events:none;">
+    <h2>ĐÁNH GIÁ CHẤT LƯỢNG PHỤC VỤ</h2>
+    <p class="restaurant-name">NHÀ HÀNG TRÂU NGON QUÁN</p>
+
+    <form id="fbForm" autocomplete="off">
+      <input type="hidden" id="timestamp"   name="timestamp">
+      <input type="hidden" id="staffCode"   name="staffCode">
+      <input type="hidden" id="tableNumber" name="tableNumber">
+
+      <label for="customerName">Tên khách hàng</label>
+      <input id="customerName" name="customerName" type="text" placeholder="Anh/chị..." required>
+
+      <label for="phone">Số điện thoại</label>
+      <input id="phone" name="phone" type="tel" inputmode="numeric" pattern="\d{10}" maxlength="10" placeholder="09xxxxxxxx" required title="Nhập đúng 10 chữ số">
+
+      <label>Chất lượng món ăn</label>
+      <div class="rating">
+        <input id="food5" type="radio" name="foodQuality" value="5" required><label for="food5">★</label>
+        <input id="food4" type="radio" name="foodQuality" value="4"><label for="food4">★</label>
+        <input id="food3" type="radio" name="foodQuality" value="3"><label for="food3">★</label>
+        <input id="food2" type="radio" name="foodQuality" value="2"><label for="food2">★</label>
+        <input id="food1" type="radio" name="foodQuality" value="1"><label for="food1">★</label>
+      </div>
+
+      <label>Phục vụ</label>
+      <div class="rating">
+        <input id="service5" type="radio" name="service" value="5" required><label for="service5">★</label>
+        <input id="service4" type="radio" name="service" value="4"><label for="service4">★</label>
+        <input id="service3" type="radio" name="service" value="3"><label for="service3">★</label>
+        <input id="service2" type="radio" name="service" value="2"><label for="service2">★</label>
+        <input id="service1" type="radio" name="service" value="1"><label for="service1">★</label>
+      </div>
+
+      <label>Vệ sinh</label>
+      <div class="rating">
+        <input id="clean5" type="radio" name="cleanliness" value="5" required><label for="clean5">★</label>
+        <input id="clean4" type="radio" name="cleanliness" value="4"><label for="clean4">★</label>
+        <input id="clean3" type="radio" name="cleanliness" value="3"><label for="clean3">★</label>
+        <input id="clean2" type="radio" name="cleanliness" value="2"><label for="clean2">★</label>
+        <input id="clean1" type="radio" name="cleanliness" value="1"><label for="clean1">★</label>
+      </div>
+
+      <label for="notes">Ghi chú</label>
+      <textarea id="notes" name="notes" placeholder="Ấn tượng, món gọi, v.v."></textarea>
+
+      <button type="submit" id="submitBtn" disabled>Gửi đánh giá</button>
+    </form>
+  </div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwcbq4aw6joXHIQXC9RSSyPyhBZ0_EvmVHcCwbZEobY4zj8bXTYm1nC22Qy7E7Y8WdPZQ/exec';
+
+    const staffModal      = document.getElementById('staffModal');
+    const staffCodeInput  = document.getElementById('staffCodeInput');
+    const tableInput      = document.getElementById('tableNumberInput');
+    const confirmBtn      = document.getElementById('confirmStaff');
+    const staffCodeHidden = document.getElementById('staffCode');
+    const tableHidden     = document.getElementById('tableNumber');
+    const mainCard        = document.getElementById('mainCard');
+    const submitBtn       = document.getElementById('submitBtn');
+    const form            = document.getElementById('fbForm');
+    const thankYouBox     = document.getElementById('thankYouBox');
+    const thankYouText    = document.getElementById('thankYouText');
+
+    function activateForm(){
+      const code = staffCodeInput.value.trim();
+      const tableNum = tableInput.value.trim();
+
+      if(!/^[\d]{4}$/.test(code) || !/^[A-Za-z0-9]+$/.test(tableNum)){
+        alert('Mã NV cần 4 số và số bàn gồm chữ/số (không dấu cách).');
+        return;
+      }
+      staffCodeHidden.value = code;
+      tableHidden.value = tableNum;
+      staffModal.style.display = 'none';
+      mainCard.style.opacity = '1';
+      mainCard.style.pointerEvents = 'auto';
+      submitBtn.disabled = false;
+      document.getElementById('customerName').focus();
+    }
+
+    confirmBtn.addEventListener('click', activateForm);
+    [staffCodeInput, tableInput].forEach(inp => inp.addEventListener('keydown', e=>{if(e.key==='Enter'){e.preventDefault();activateForm();}}));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      document.getElementById('timestamp').value = new Date().toISOString();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      if(!/^[0-9]{10}$/.test(data.phone)){
+        alert('Anh/chị vui lòng nhập số điện thoại gồm đúng 10 chữ số.');
+        return;
+      }
+      data.restaurant = 'CS 1';
+      try{
+        await fetch(scriptURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+        thankYouText.textContent = `Cảm ơn anh/chị ${data.customerName} đã đánh giá!`;
+        thankYouBox.style.display = 'flex';
+        form.reset();
+        document.querySelectorAll('.rating input').forEach(i=>i.checked=false);
+        submitBtn.disabled=true;
+        mainCard.style.opacity='.3';
+        mainCard.style.pointerEvents='none';
+        staffCodeInput.value='';tableInput.value='';
+        staffModal.style.display='flex';
+        staffCodeInput.focus();
+      }catch(err){console.error(err);alert('Có lỗi xảy ra, vui lòng thử lại.');}}
+    );
+  </script>
+</body>
+</html>
