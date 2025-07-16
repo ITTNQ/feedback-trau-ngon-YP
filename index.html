@@ -102,7 +102,7 @@
   </div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwcbq4aw6joXHIQXC9RSSyPyhBZ0_EvmVHcCwbZEobY4zj8bXTYm1nC22Qy7E7Y8WdPZQ/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyJObi47I3qZUWiq_xTWE3rhJvlp0yA0n7cIxLDhdqklBoYBQOSCqenQv7rbQs3lzrZUA/exec';
 
     const staffModal      = document.getElementById('staffModal');
     const staffCodeInput  = document.getElementById('staffCodeInput');
@@ -145,7 +145,7 @@
         alert('Anh/chị vui lòng nhập số điện thoại gồm đúng 10 chữ số.');
         return;
       }
-      data.restaurant = 'CS 1';
+      data.restaurant = 'CS YP';
       try{
         await fetch(scriptURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
         thankYouText.textContent = `Cảm ơn anh/chị ${data.customerName} đã đánh giá!`;
