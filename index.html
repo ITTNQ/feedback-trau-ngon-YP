@@ -5,31 +5,194 @@
   <title>Đánh giá chất lượng phục vụ – TRÂU NGON QUÁN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    :root{--primary:#ffca08;--neutral:#ccc;--bg:#f9fafb;--modal-bg:rgba(0,0,0,.6);}  
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);margin:0;display:flex;justify-content:center;padding:2rem;}
-    .card{background:#fff;border-radius:1rem;box-shadow:0 4px 20px rgba(0,0,0,.08);max-width:480px;width:100%;padding:1.5rem 2rem;position:relative;overflow:hidden;}
-    .card::before{content:"";position:absolute;inset:0;background:url('LOGO.png') center/80% no-repeat;opacity:0.1;pointer-events:none;}
-    .card *{position:relative;z-index:1;}
-    h2{text-align:center;margin:0;font-size:1.5rem;text-transform:uppercase;}
-    .restaurant-name{text-align:center;font-weight:700;margin:.5rem 0 1.5rem;text-transform:uppercase;font-size:1.25rem;}
-    label{display:block;margin:.75rem 0 .25rem;font-weight:600;}
-    textarea{resize:vertical;min-height:90px;}
-    input[type="text"],input[type="tel"],textarea{width:100%;padding:.5rem .75rem;border:1px solid #ddd;border-radius:.5rem;font-size:1rem;}
-    .rating{direction:rtl;display:inline-flex;gap:.25rem;font-size:1.75rem;}
-    .rating>input{display:none;}
-    .rating>label{cursor:pointer;color:var(--neutral);transition:color .2s;}
-    .rating>input:checked~label,.rating>label:hover,.rating>label:hover~label{color:var(--primary);}  
-    button{display:block;margin:1.5rem auto 0;padding:.6rem 1.5rem;border:none;background:var(--primary);color:#000;font-weight:600;border-radius:.5rem;font-size:1rem;cursor:pointer;transition:transform .15s;}
-    button:disabled{opacity:.5;cursor:not-allowed;}
-    button:active{transform:scale(.97);}  
-    .modal{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:var(--modal-bg);z-index:9999;}
-    .modal-content{background:#fff;border-radius:1rem;padding:2rem;max-width:340px;width:90%;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.2);}    
-    .modal-content h3{margin:0 0 1rem;font-size:1.25rem;}
-    .modal-content input{width:100%;padding:.5rem;border:1px solid #ddd;border-radius:.5rem;font-size:1rem;margin-top:.5rem;}
-    .modal-content button{margin-top:1rem;width:100%;}
-    #thankYouBox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:9999;}
-    #thankYouContent{background:white;padding:2rem 1.5rem;border-radius:1rem;box-shadow:0 6px 24px rgba(0,0,0,.2);text-align:center;max-width:320px;}
-    #thankYouContent h3{margin:0 0 1rem;font-size:1.25rem;}
+   :root {
+  --primary: #ffca08;
+  --neutral: #ccc;
+  --bg: #f9fafb;
+  --modal-bg: rgba(0, 0, 0, 0.6);
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: var(--bg);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 480px;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('LOGO.png') center/80% no-repeat;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.card * {
+  position: relative;
+  z-index: 1;
+}
+
+h2 {
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.restaurant-name {
+  text-align: center;
+  font-weight: 700;
+  margin: 0.5rem 0 1.5rem;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+}
+
+label {
+  display: block;
+  margin: 0.1rem 0 0.3rem;
+  font-weight: 600;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+input[type="text"],
+input[type="tel"],
+textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+/* 🔧 Chỉ chỉnh ở đây: tăng kích thước sao */
+.rating {
+  direction: rtl;
+  display: inline-flex;
+  gap: 0.25rem;
+  font-size: 2.8rem; /* tăng từ 1.75rem lên */
+}
+
+.rating > input {
+  display: none;
+}
+
+.rating > label {
+  cursor: pointer;
+  color: var(--neutral);
+  transition: color 0.2s;
+}
+
+.rating > input:checked ~ label,
+.rating > label:hover,
+.rating > label:hover ~ label {
+  color: var(--primary);
+}
+
+button {
+  display: block;
+  margin: 1.5rem auto 0;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  background: var(--primary);
+  color: #000;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--modal-bg);
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 340px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.modal-content button {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+#thankYouBox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+#thankYouContent {
+  background: white;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 320px;
+}
+
+#thankYouContent h3 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+}
+
+  
   </style>
 </head>
 <body>
@@ -53,8 +216,7 @@
 
   <!-- Form chính -->
   <div class="card" id="mainCard" style="opacity:.3;pointer-events:none;">
-    <h2>ĐÁNH GIÁ CHẤT LƯỢNG PHỤC VỤ</h2>
-    <p class="restaurant-name">NHÀ HÀNG TRÂU NGON QUÁN</p>
+    <h2>ĐÁNH GIÁ CHẤT LƯỢNG DỊCH VỤ</h2>
 
     <form id="fbForm" autocomplete="off">
       <input type="hidden" id="timestamp"   name="timestamp">
@@ -67,7 +229,10 @@
       <label for="phone">Số điện thoại</label>
       <input id="phone" name="phone" type="tel" inputmode="numeric" pattern="\d{10}" maxlength="10" placeholder="09xxxxxxxx" required title="Nhập đúng 10 chữ số">
 
-      <label>Chất lượng món ăn</label>
+      <div style="margin-bottom: 12px;">
+          <label style="display: block; font-weight: bold;">Chất lượng món ăn</label>
+          <small style="display: block; color: #666;">(Hương vị, độ tươi, trình bày món ăn...)</small>
+      </div>
       <div class="rating">
         <input id="food5" type="radio" name="foodQuality" value="5" required><label for="food5">★</label>
         <input id="food4" type="radio" name="foodQuality" value="4"><label for="food4">★</label>
@@ -76,7 +241,10 @@
         <input id="food1" type="radio" name="foodQuality" value="1"><label for="food1">★</label>
       </div>
 
-      <label>Phục vụ</label>
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-weight: bold;">Chất lượng phục vụ</label>
+        <small style="display: block; color: #666;">(Thái độ, tư vấn, nhanh nhẹn...)</small>
+      </div>
       <div class="rating">
         <input id="service5" type="radio" name="service" value="5" required><label for="service5">★</label>
         <input id="service4" type="radio" name="service" value="4"><label for="service4">★</label>
@@ -85,7 +253,10 @@
         <input id="service1" type="radio" name="service" value="1"><label for="service1">★</label>
       </div>
 
-      <label>Vệ sinh</label>
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-weight: bold;">Không gian nhà hàng</label>
+        <small style="display: block; color: #666;">(Thẩm mỹ, sạch sẽ, ánh sáng, âm thanh...)</small>
+      </div>
       <div class="rating">
         <input id="clean5" type="radio" name="cleanliness" value="5" required><label for="clean5">★</label>
         <input id="clean4" type="radio" name="cleanliness" value="4"><label for="clean4">★</label>
@@ -95,7 +266,7 @@
       </div>
 
       <label for="notes">Ghi chú</label>
-      <textarea id="notes" name="notes" placeholder="Ấn tượng, món gọi, v.v."></textarea>
+      <textarea id="notes" name="notes" placeholder="Ấn tượng, vấn đề chưa hài lòng v.v."></textarea>
 
       <button type="submit" id="submitBtn" disabled>Gửi đánh giá</button>
     </form>
